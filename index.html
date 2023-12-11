@@ -7,34 +7,21 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-
-        /* 
-            JSX의 사용법
-            1. 라이브러리를 받아와야 한다.
-            2. 랜더링할 script 코드의 type을 text/babel로 지정해준다.
-
-        */
-
-        //Tag를 생성할 때 arrow function을 사용한다.
-        const Title = () => (
-            <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>
-                Hello I'm a title
-            </h3>
-        );
-
-        //생성되는 모양은 <태그 id="아이디값" 이벤트={() => 이벤트 내용}>텍스트 내용</태그> 이와 같다
-        const Button = () => <button style={{backgroundColor: "tomato",}} onClick={() => console.log("Hello button")}>Click Me</button>;
-
         const root = document.getElementById("root");
-
-        //값을 넣어줄때에도 <태그><생성된 태그/><생성된 태그/></태그> 와 같이 처리한다. ※ 단 첫글자를 소문자로 적을 시 일반태그로 인식한다.
-        const Container = <div>
-            <Title />
-            <Button />
+        let counter = 0;
+        function countUp() {
+            counter++;
+            reRender();
+        }
+        function reRender() {
+            ReactDOM.render(<Container/>, root)
+        }
+        const Container = () => <div>
+            <h3>Total clicks: {counter}</h3>
+            <button onClick={countUp}>Click me</button>
         </div>;
 
-        //ReactDOM에게 render를 통하여 Tag를 삽입한다. (삽입할 값, 삽입할 위치)
-        ReactDOM.render(Container, root)
+        reRender();
 
     </script>
 </html>
