@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #inputBox {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputBox = document.getElementById('inputBox');
+
+            // 사용자가 input 상자를 터치했을 때
+            inputBox.addEventListener('touchstart', function (e) {
+                e.stopPropagation();
+                // 키보드가 올라오도록 설정
+                inputBox.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            });
+
+            // 사용자가 다른 부분을 터치했을 때
+            document.body.addEventListener('touchend', function () {
+                // 키보드를 내리도록 설정
+                inputBox.blur();
+            });
+        });
+    </script>
+</head>
+<body>
+    <input type="text" id="inputBox" placeholder="Type something...">
+</body>
+</html>
