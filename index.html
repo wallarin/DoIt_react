@@ -7,79 +7,36 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        const root = document.getElementById("root");
-        function MinutesToHours() {
-            const [amount, setAmount] = React.useState(0);
-            const [inverted, setInverted] = React.useState(false);
-            React.useEffect(() => {
-            // 사용자가 입력한 값이 유효한지 확인
-                const parsedAmount = parseFloat(amount);
-                if (!isNaN(parsedAmount)) {
-                    setAmount(parsedAmount.toString());
-                }
-            }, [amount]);
-            const onChange = (event) => {
-                setAmount(event.target.value);
-            }
-            const reset = () => setAmount(0);
-            const onFlip = () => {
-                reset();
-                setInverted((current) => !current);
-            }
+        function Btn({ text_value, changeValue }) {
+            console.log(text_value, "was rendered")
             return (
-                <div>
-                    <div>
-                        <label htmlFor="minutes">Minutes</label>
-                        <input 
-                            id="minutes" 
-                            placeholder="Minutes" 
-                            type="number" 
-                            value={!inverted ? amount : Math.round(amount * 60)} 
-                            onChange={onChange} 
-                            disabled={inverted} 
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="hours">Hours</label>
-                        <input 
-                            value={inverted ? amount : (Math.abs(amount % 60) === 0 ? Math.round(amount / 60) : (Math.round(amount / 60 * 10) / 10).toFixed(1))} 
-                            id="hours" 
-                            placeholder="Hours" 
-                            type="number" 
-                            disabled={!inverted} 
-                            onChange={onChange} 
-                        />
-                    </div>
-                    <button onClick={reset}>Reset</button>
-                    <button onClick={onFlip}>{inverted ? "Turn Back" : "Invert"}</button>
-                </div>
-            );
+                <button 
+                    onClick={changeValue}
+                    style={{
+                        backgroundColor: "tomato",
+                        color: "white",
+                        padding: "10px 20px",
+                        border: 0,
+                        borderRadius: 10,
+                        cursor: "pointer"
+                    }}>
+                    {text_value}
+                </button>
+            )
         }
-        function KmToMiles() {
-            return <h3>Km To M</h3>
-        }
+        const MemorizedBtn = React.memo(Btn) //현재 그려져있는 상태를 기억하고 변경된 것만 적용시킨다. re-render의 수를 줄이기 위함
         function App() {
-            const [index, setIndex] = React.useState("xx")
-            const onSelect = (event) => {
-                setIndex(event.target.value);
-            }
+            const [value, setValue] = React.useState("Save Changes");
+            const changeValue = () => setValue("Revert Changes");
             return (
                 <div>
-                    <h1>Super Converter</h1>
-                    <select value={index} onChange={onSelect}>
-                        <option value="xx">Select your units</option>
-                        <option value="0">Minutes & Hours</option>
-                        <option value="1">Km & Miles</option>
-                    </select>
-                    <hr />
-                    {index === "xx" ? <h4>Please select your units</h4> : null }
-                    {index === "0" ? <MinutesToHours /> : null }
-                    {index === "1" ? <KmToMiles /> : null }
+                    <MemorizedBtn text_value={value} changeValue={changeValue} />
+                    <MemorizedBtn text_value="Confirm" />
                 </div>
             );
         }
 
-        //reRender();
+        const root = document.getElementById("root");
         ReactDOM.render(<App/>, root)
 
     </script>
